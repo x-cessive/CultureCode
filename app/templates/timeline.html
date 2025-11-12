@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Timeline - The Hitchhiker's Guide to History{% endblock %}
+
+{% block extra_css %}
+<style>
+    .timeline-container {
+        position: relative;
+        padding: 2rem 0;
+    }
+    
+    .timeline-axis {
+        position: relative;
+        height: 10px;
+        background: #dee2e6;
+        margin: 2rem 0;
+    }
+    
+    .timeline-event {
+        position: absolute;
+        width: 200px;
+        background: white;
+        border: 1px solid #007bff;
+        border-radius: 5px;
+        padding: 10px;
+        transform: translateX(-50%);
+        z-index: 10;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .timeline-event:hover {
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        z-index: 20;
+    }
+    
+    .culture-period {
+        position: absolute;
+        height: 30px;
+        background: rgba(0, 123, 255, 0.2);
+        border: 1px solid rgba(0, 123, 255, 0.5);
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 5px;
+        box-sizing: border-box;
+        z-index: 5;
+    }
+    
+    .culture-period:hover {
+        background: rgba(0, 123, 255, 0.3);
+        z-index: 15;
+    }
+    
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    
+    .legend-color {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        border: 1px solid #ccc;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Historical Timeline</h1>
+<p class="lead">Interactive visualization of how different cultures existed and overlapped through time</p>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <h5>Timeline Legend</h5>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: rgba(0, 123, 255, 0.2); border-color: rgba(0, 123, 255, 0.5);"></div>
+                            <span>Culture Existence Period</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background-color: #007bff; border-color: #007bff;"></div>
+                            <span>Culture Name</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>How to use:</strong> Hover over cultures to see details. Click on a culture name to explore it.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="timeline-container">
+    <div class="timeline-axis" id="timeline-axis"></div>
+    <div id="timeline-events"></div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <h3>All Cultures</h3>
+        <div class="row" id="culture-list">
+            {% for event in timeline_events %}
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ event.name.replace('_', ' ') }}</h5>
+                        <p class="card-text">
+                            <strong>Period:</strong> {{ event.time_period }}<br>
+                            <strong>Location:</strong> {{ event.geography }}
+                        </p>
+                        <a href="{{ url_for('culture_detail', culture_name=event.name) }}" class="btn btn-primary">Explore</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Simplified timeline visualization
+        // In a real implementation, you'd want to properly calculate positions based on dates
+        
+        const timelineEvents = {{ timeline_events | tojson }};
+        
+        // Define a simple timeline from -3000 to 1500 (3000 BCE to 1500 CE)
+        const minYear = -3000; // 3000 BCE
+        const maxYear = 1600;  // 1600 CE
+        const timelineWidth = document.getElementById('timeline-axis').offsetWidth;
+        
+        // Sort events by start date for better visualization
+        timelineEvents.sort((a, b) => (a.start_date || 0) - (b.start_date || 0));
+        
+        const timelineContainer = document.getElementById('timeline-events');
+        
+        // Create culture periods
+        timelineEvents.forEach(event => {
+            if (event.start_date !== null && event.end_date !== null) {
+                const startPercent = ((event.start_date - minYear) / (maxYear - minYear)) * 100;
+                const widthPercent = ((event.end_date - event.start_date) / (maxYear - minYear)) * 100;
+                
+                // Ensure minimum width for visibility
+                const finalWidth = Math.max(widthPercent, 2);
+                
+                const periodDiv = document.createElement('div');
+                periodDiv.className = 'culture-period';
+                periodDiv.style.left = `${Math.max(0, startPercent)}%`;
+                periodDiv.style.width = `${finalWidth}%`;
+                periodDiv.title = `${event.name}: ${event.time_period}`;
+                
+                // Create a link inside the period div
+                const link = document.createElement('a');
+                link.href = `{{ url_for('culture_detail', culture_name='') }}${event.name}`;
+                link.textContent = event.name.replace('_', ' ');
+                link.style.textDecoration = 'none';
+                link.style.color = 'inherit';
+                link.style.fontWeight = 'bold';
+                
+                periodDiv.appendChild(link);
+                timelineContainer.appendChild(periodDiv);
+            }
+        });
+        
+        // Handle window resize to recalculate positions
+        window.addEventListener('resize', function() {
+            // In a full implementation, you would recalculate all positions here
+        });
+    });
+    
+    // Add some interactivity to the culture cards
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.transition = 'transform 0.2s';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,203 @@
+/* Custom styles for The Hitchhiker's Guide to History */
+
+:root {
+  --primary-color: #4361ee;
+  --secondary-color: #3f37c9;
+  --accent-color: #4895ef;
+  --light-color: #f8f9fa;
+  --dark-color: #212529;
+  --success-color: #4cc9f0;
+  --border-radius: 0.5rem;
+}
+
+body {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: #f9f9f9;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  letter-spacing: 0.5px;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #4361ee, #3a0ca3);
+  color: white;
+  border-radius: var(--border-radius) !important;
+}
+
+.hero-section h1 {
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.culture-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  border: 1px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.culture-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.culture-card .card-title {
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+.section-divider {
+  margin: 3rem 0;
+  padding-top: 2rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.timeline-event {
+  border-left: 3px solid var(--accent-color) !important;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 1rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent-color);
+  border-radius: 3px;
+}
+
+.timeline-event {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.timeline-event::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 0.5rem;
+  width: 10px;
+  height: 10px;
+  background: var(--accent-color);
+  border-radius: 50%;
+}
+
+.culture-nav .nav-link {
+  color: #495057;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  margin-bottom: 0.25rem;
+}
+
+.culture-nav .nav-link:hover {
+  background-color: #e9ecef;
+}
+
+.culture-nav .nav-link.active {
+  color: var(--primary-color);
+  font-weight: 500;
+  background-color: #e7f5ff;
+}
+
+.list-group-item.active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+/* Timeline specific styles */
+.timeline-axis {
+  position: relative;
+  height: 20px;
+  background: linear-gradient(to right, #dee2e6, #adb5bd, #dee2e6);
+  border-radius: 10px;
+  margin: 2rem 0;
+}
+
+.timeline-event-marker {
+  position: absolute;
+  top: -10px;
+  width: 20px;
+  height: 20px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+}
+
+.culture-period {
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.culture-period a {
+  transition: color 0.2s;
+}
+
+.culture-period a:hover {
+  color: white !important;
+  text-decoration: none;
+}
+
+/* Footer styles */
+.footer {
+  margin-top: auto;
+  background-color: var(--dark-color) !important;
+  color: white;
+}
+
+.footer a {
+  color: var(--accent-color);
+}
+
+.footer a:hover {
+  color: var(--success-color);
+  text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+  
+  .culture-nav {
+    position: static;
+    margin-bottom: 2rem;
+  }
+  
+  .culture-nav .nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .culture-nav .nav-link {
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Code and preformatted text styling */
+code {
+  background-color: #f8f9fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+pre {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  overflow-x: auto;
+}

@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}{{ culture.name.replace('_', ' ') }} - The Hitchhiker's Guide to History{% endblock %}
+
+{% block extra_css %}
+<style>
+    .section-divider {
+        border-top: 1px solid #dee2e6;
+        margin: 2rem 0;
+    }
+    .timeline-event {
+        border-left: 3px solid #007bff;
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+    }
+    .culture-nav {
+        position: sticky;
+        top: 20px;
+    }
+    .culture-link.active {
+        font-weight: bold;
+        background-color: #e9ecef;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <!-- Navigation Sidebar -->
+    <div class="col-lg-3">
+        <div class="culture-nav sticky-top">
+            <h5>Navigate Culture</h5>
+            <nav class="nav flex-column">
+                <a class="nav-link culture-link" href="#overview">Overview</a>
+                <a class="nav-link culture-link" href="#values">Core Values</a>
+                <a class="nav-link culture-link" href="#social-systems">Social Systems</a>
+                <a class="nav-link culture-link" href="#innovations">Innovations</a>
+                <a class="nav-link culture-link" href="#timeline">Timeline</a>
+                <a class="nav-link culture-link" href="#dependencies">Dependencies</a>
+            </nav>
+
+            <hr class="section-divider">
+
+            <h5>Compare with:</h5>
+            <select id="compareSelect" class="form-select mb-3">
+                <option value="">Select a culture to compare</option>
+                {% for other_culture in all_cultures %}
+                {% if other_culture != culture.name %}
+                <option value="{{ other_culture }}">{{ other_culture.replace('_', ' ') }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            <button id="compareBtn" class="btn btn-outline-primary w-100">Compare</button>
+
+            <hr class="section-divider">
+
+            <h5>All Cultures</h5>
+            <div class="list-group list-group-flush">
+                {% for other_culture in all_cultures %}
+                <a href="{{ url_for('culture_detail', culture_name=other_culture) }}" 
+                   class="list-group-item list-group-item-action {% if other_culture == culture.name %}active{% endif %}">
+                    {{ other_culture.replace('_', ' ') }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="col-lg-9">
+        <div class="d-flex justify-content-between align-items-start mb-4">
+            <div>
+                <h1>{{ culture.name.replace('_', ' ') }}</h1>
+                {% if culture.get('readme_raw') %}
+                {% set readme = culture['readme_raw'] %}
+                {% set time_period = 'Time period not specified' %}
+                {% set geography = 'Geography not specified' %}
+                {% set political_system = 'Political system not specified' %}
+                {% set major_innovations = 'Major innovations not specified' %}
+                
+                {% for line in readme.split('\n') %}
+                    {% if 'Time Period:' in line %}
+                        {% set time_period = line.replace('**Time Period:**', '').replace('**', '').strip() %}
+                    {% elif 'Geography:' in line %}
+                        {% set geography = line.replace('**Geography:**', '').replace('**', '').strip() %}
+                    {% elif 'Political System:' in line %}
+                        {% set political_system = line.replace('**Political System:**', '').replace('**', '').strip() %}
+                    {% elif 'Major Innovations:' in line %}
+                        {% set major_innovations = line.replace('**Major Innovations:**', '').replace('**', '').strip() %}
+                    {% endif %}
+                {% endfor %}
+                
+                <p class="lead">{{ time_period }}</p>
+                <p><strong>Geography:</strong> {{ geography }}</p>
+                <p><strong>Political System:</strong> {{ political_system }}</p>
+                <p><strong>Major Innovations:</strong> {{ major_innovations }}</p>
+            </div>
+            <a href="https://github.com/x-cessive/CultureCode/tree/main/cultures/{{ culture.name }}" 
+               class="btn btn-outline-primary" target="_blank">
+                View Source Code
+            </a>
+        </div>
+
+        <div id="overview" class="section-divider">
+            {% if culture.get('readme_html') %}
+                {{ culture['readme_html'] | safe }}
+            {% else %}
+                <p>No overview available for this culture.</p>
+            {% endif %}
+        </div>
+
+        <div id="values" class="section-divider">
+            <h2>Core Values <i class="fas fa-star"></i></h2>
+            {% if culture.get('values') %}
+                <h4>Core Values:</h4>
+                <ul class="list-group mb-3">
+                {% for value in culture['values'].get('core_values', []) %}
+                    <li class="list-group-item">{{ value }}</li>
+                {% endfor %}
+                </ul>
+                
+                <h4>Worldview:</h4>
+                <ul class="list-group mb-3">
+                {% for worldview in culture['values'].get('worldview', []) %}
+                    <li class="list-group-item">{{ worldview }}</li>
+                {% endfor %}
+                </ul>
+                
+                <h4>Identity:</h4>
+                <ul class="list-group">
+                {% for identity in culture['values'].get('identity', []) %}
+                    <li class="list-group-item">{{ identity }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <p>No values data available.</p>
+            {% endif %}
+        </div>
+
+        <div id="social-systems" class="section-divider">
+            <h2>Social Systems <i class="fas fa-users"></i></h2>
+            {% if culture.get('social_systems_html') %}
+                {{ culture['social_systems_html'] | safe }}
+            {% else %}
+                <p>No social systems data available.</p>
+            {% endif %}
+        </div>
+
+        <div id="innovations" class="section-divider">
+            <h2>Innovations <i class="fas fa-lightbulb"></i></h2>
+            {% if culture.get('innovations_html') %}
+                {{ culture['innovations_html'] | safe }}
+            {% else %}
+                <p>No innovations data available.</p>
+            {% endif %}
+        </div>
+
+        <div id="timeline" class="section-divider">
+            <h2>Timeline <i class="fas fa-history"></i></h2>
+            {% if culture.get('timeline') %}
+                <div class="timeline">
+                {% for event in culture['timeline'] %}
+                    <div class="timeline-event">
+                        <h5>{{ event.date }}</h5>
+                        <p class="mb-1">{{ event.event }}</p>
+                        <small class="text-muted">{{ event.commit_message }}</small>
+                    </div>
+                {% endfor %}
+                </div>
+            {% else %}
+                <p>No timeline data available.</p>
+            {% endif %}
+        </div>
+
+        <div id="dependencies" class="section-divider">
+            <h2>Dependencies <i class="fas fa-project-diagram"></i></h2>
+            {% if culture.get('dependencies') %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <h4>Imports <i class="fas fa-arrow-down"></i></h4>
+                        <ul class="list-group">
+                        {% for imp in culture['dependencies'].get('imports', []) %}
+                            <li class="list-group-item">{{ imp }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Exports <i class="fas fa-arrow-up"></i></h4>
+                        <ul class="list-group">
+                        {% for exp in culture['dependencies'].get('exports', []) %}
+                            <li class="list-group-item">{{ exp }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h4>Forks <i class="fas fa-code-branch"></i></h4>
+                        <ul class="list-group">
+                        {% for fork in culture['dependencies'].get('forks', []) %}
+                            <li class="list-group-item">{{ fork }}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% else %}
+                <p>No dependencies data available.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Modal for comparison results -->
+<div class="modal fade" id="comparisonModal" tabindex="-1">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Culture Comparison</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="comparisonResults">
+        <p>Comparing cultures...</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Handle comparison button click
+    document.getElementById('compareBtn').addEventListener('click', function() {
+        const selectedCulture = document.getElementById('compareSelect').value;
+        if (!selectedCulture) {
+            alert('Please select a culture to compare with');
+            return;
+        }
+        
+        const currentCulture = "{{ culture.name }}";
+        window.location.href = `/compare?culture1=${currentCulture}&culture2=${selectedCulture}`;
+    });
+    
+    // Handle navigation highlighting
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('.section-divider');
+        const navLinks = document.querySelectorAll('.culture-link');
+        
+        window.addEventListener('scroll', function() {
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

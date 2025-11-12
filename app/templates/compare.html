@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+
+{% block title %}Compare Cultures - The Hitchhiker's Guide to History{% endblock %}
+
+{% block content %}
+<h1>Compare Cultures</h1>
+<p class="lead">Explore the similarities and differences between different civilizations</p>
+
+<div class="row mb-4">
+    <div class="col-md-5">
+        <label for="culture1Select" class="form-label">First Culture</label>
+        <select class="form-select" id="culture1Select">
+            <option value="">Select a culture</option>
+            {% for culture in cultures %}
+            <option value="{{ culture }}" {% if request.args.get('culture1') == culture %}selected{% endif %}>{{ culture.replace('_', ' ') }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-2 text-center d-flex align-items-center justify-content-center">
+        <i class="fas fa-exchange-alt fa-2x text-muted my-auto"></i>
+    </div>
+
+    <div class="col-md-5">
+        <label for="culture2Select" class="form-label">Second Culture</label>
+        <select class="form-select" id="culture2Select">
+            <option value="">Select a culture</option>
+            {% for culture in cultures %}
+            <option value="{{ culture }}" {% if request.args.get('culture2') == culture %}selected{% endif %}>{{ culture.replace('_', ' ') }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12 text-center">
+        <button id="compareBtn" class="btn btn-primary btn-lg">Compare Cultures</button>
+    </div>
+</div>
+
+<div id="comparisonResult" style="display: none;">
+    <h2 id="comparisonTitle">Comparison Results</h2>
+    <div id="comparisonContent">
+        <!-- Results will be loaded here -->
+    </div>
+</div>
+
+<div id="loadingIndicator" class="text-center" style="display: none;">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Comparing cultures...</p>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.getElementById('compareBtn').addEventListener('click', function() {
+        const culture1 = document.getElementById('culture1Select').value;
+        const culture2 = document.getElementById('culture2Select').value;
+        
+        if (!culture1 || !culture2) {
+            alert('Please select two cultures to compare');
+            return;
+        }
+        
+        // Show loading indicator
+        document.getElementById('loadingIndicator').style.display = 'block';
+        document.getElementById('comparisonResult').style.display = 'none';
+        
+        // Make API request to compare cultures
+        fetch(`/api/compare/${culture1}/${culture2}`)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('loadingIndicator').style.display = 'none';
+                
+                if (data.error) {
+                    document.getElementById('comparisonContent').innerHTML = 
+                        `<div class="alert alert-danger">Error: ${data.error}</div>`;
+                    document.getElementById('comparisonResult').style.display = 'block';
+                    return;
+                }
+                
+                // Build comparison HTML
+                let html = `
+                    <h3>Comparing: ${data.culture1.name.replace('_', ' ')} vs ${data.culture2.name.replace('_', ' ')}</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>${data.culture1.name.replace('_', ' ')}</h4>
+                            <p><strong>Time Period:</strong> ${extractTimePeriod(data.culture1)}</p>
+                            <p><strong>Geography:</strong> ${extractGeography(data.culture1)}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>${data.culture2.name.replace('_', ' ')}</h4>
+                            <p><strong>Time Period:</strong> ${extractTimePeriod(data.culture2)}</p>
+                            <p><strong>Geography:</strong> ${extractGeography(data.culture2)}</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Add similarities if any
+                if (data.similarities.length > 0) {
+                    html += `
+                        <h4>Similarities</h4>
+                        <ul class="list-group mb-3">
+                    `;
+                    data.similarities.forEach(sim => {
+                        html += `<li class="list-group-item"><strong>${sim.description}:</strong> ${sim.items.join(', ')}</li>`;
+                    });
+                    html += '</ul>';
+                }
+                
+                // Add differences if any
+                if (data.differences.length > 0) {
+                    html += `
+                        <h4>Differences</h4>
+                        <ul class="list-group mb-3">
+                    `;
+                    data.differences.forEach(diff => {
+                        html += `<li class="list-group-item">
+                            <strong>${diff.description}:</strong><br>
+                            <span class="text-primary">${data.culture1.name.replace('_', ' ')}:</span> ${diff.culture1_value}<br>
+                            <span class="text-secondary">${data.culture2.name.replace('_', ' ')}:</span> ${diff.culture2_value}
+                        </li>`;
+                    });
+                    html += '</ul>';
+                } else {
+                    html += '<p>No significant differences detected in our initial comparison.</p>';
+                }
+                
+                // Add a comparison button
+                html += `<a href="${data.culture1.name.replace('_', ' ')}" class="btn btn-primary">Explore ${data.culture1.name.replace('_', ' ')}</a>
+                         <a href="${data.culture2.name.replace('_', ' ')}" class="btn btn-primary">Explore ${data.culture2.name.replace('_', ' ')}</a>`;
+                
+                document.getElementById('comparisonContent').innerHTML = html;
+                document.getElementById('comparisonResult').style.display = 'block';
+            })
+            .catch(error => {
+                document.getElementById('loadingIndicator').style.display = 'none';
+                document.getElementById('comparisonContent').innerHTML = 
+                    `<div class="alert alert-danger">Error loading comparison: ${error}</div>`;
+                document.getElementById('comparisonResult').style.display = 'block';
+            });
+    });
+    
+    function extractTimePeriod(culture) {
+        if (culture.readme_raw) {
+            const lines = culture.readme_raw.split('\n');
+            for (const line of lines) {
+                if (line.includes('Time Period:')) {
+                    return line.replace('**Time Period:**', '').replace('**', '').trim();
+                }
+            }
+        }
+        return 'Time period not specified';
+    }
+    
+    function extractGeography(culture) {
+        if (culture.readme_raw) {
+            const lines = culture.readme_raw.split('\n');
+            for (const line of lines) {
+                if (line.includes('Geography:')) {
+                    return line.replace('**Geography:**', '').replace('**', '').trim();
+                }
+            }
+        }
+        return 'Geography not specified';
+    }
+</script>
+{% endblock %}

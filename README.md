@@ -127,6 +127,44 @@ The CultureCode project currently includes the following cultures:
 | `timeline.json` | Key events with dates and "commit messages" |
 | `dependencies.json` | Cultural influences and successors (imports/forks) |
 
+## 🌐 Web Application: "The Hitchhiker's Guide to History"
+
+We've created a Python Flask web application that provides an interactive interface to explore the CultureCode project. This "Hitchhiker's Guide to History" includes:
+
+- **Browse Interface**: Explore all documented cultures with rich detail pages
+- **Comparison Tool**: Compare different civilizations side-by-side
+- **Timeline Visualization**: Interactive timeline showing when cultures existed and overlapped
+- **API Endpoints**: Programmatic access to all cultural data
+- **Responsive Design**: Works well on desktop and mobile devices
+
+### Installation and Running
+
+1. Install Python dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. Run the application:
+   ```bash
+   cd app
+   python app.py
+   ```
+   Or use the run script:
+   ```bash
+   ./run_app.sh
+   ```
+
+3. Visit `http://localhost:5000` in your browser
+
+### Features
+
+- **Culture Detail Pages**: Comprehensive information about each civilization
+- **Comparison Tool**: Analyze similarities and differences between cultures
+- **Timeline View**: Visualize the temporal relationships between civilizations
+- **API Access**: JSON endpoints at `/api/cultures` and `/api/culture/{name}`
+- **GitHub Integration**: Links to source files for each culture
+- **Interactive Elements**: Search, filter, and navigate through history
+
 ## ⚙️ Tools & Automation
 
 ### CLI Interface (culture.sh)
