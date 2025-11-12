@@ -1,0 +1,16 @@
+{
+  "imports": [
+    "Nubian",
+    "Mesopotamian"
+  ],
+  "exports": [
+    "Nubian",
+    "Greek",
+    "Roman",
+    "Byzantine",
+    "Islamic"
+  ],
+  "forks": [
+    "Ptolemaic Egypt"
+  ]
+}

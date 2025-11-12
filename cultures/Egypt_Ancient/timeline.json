@@ -1,0 +1,57 @@
+[
+  {
+    "date": "c. 3100 BCE",
+    "event": "Unification of Upper and Lower Egypt by King Narmer/Menes",
+    "commit_message": "Initial commit: Formation of unified Egyptian state"
+  },
+  {
+    "date": "c. 2686-2181 BCE",
+    "event": "Old Kingdom period - Age of the Pyramids",
+    "commit_message": "Feature: Pyramid construction era begins"
+  },
+  {
+    "date": "c. 2580 BCE",
+    "event": "Construction of the Great Pyramid of Giza under Pharaoh Khufu",
+    "commit_message": "Build: Completed Great Pyramid of Giza"
+  },
+  {
+    "date": "c. 2055-1650 BCE",
+    "event": "Middle Kingdom period - Classical period of Egyptian civilization",
+    "commit_message": "Release: Middle Kingdom classical era"
+  },
+  {
+    "date": "c. 1550-1077 BCE",
+    "event": "New Kingdom period - Egyptian Empire at its height",
+    "commit_message": "Major update: Expansion to Egyptian Empire"
+  },
+  {
+    "date": "c. 1353-1336 BCE",
+    "event": "Reign of Akhenaten - Introduction of Atenism, first known monotheistic religion",
+    "commit_message": "Breaking change: Religious revolution with Atenism"
+  },
+  {
+    "date": "c. 1274 BCE",
+    "event": "Battle of Kadesh against the Hittites",
+    "commit_message": "Event: Major military conflict with Hittites"
+  },
+  {
+    "date": "c. 1186-1077 BCE",
+    "event": "Late Period - Decline and foreign invasions",
+    "commit_message": "Warning: Period of decline and instability"
+  },
+  {
+    "date": "332 BCE",
+    "event": "Conquest by Alexander the Great",
+    "commit_message": "Fork: Hellenistic influence begins with Alexander"
+  },
+  {
+    "date": "305-30 BCE",
+    "event": "Ptolemaic Period - Hellenistic Egypt under Ptolemaic dynasty",
+    "commit_message": "Fork: Ptolemaic dynasty established"
+  },
+  {
+    "date": "30 BCE",
+    "event": "Death of Cleopatra VII, Egypt becomes a Roman province",
+    "commit_message": "End of life: Egypt conquered by Rome, ancient period ends"
+  }
+]

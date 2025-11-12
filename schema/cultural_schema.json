@@ -1,0 +1,133 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Cultural Schema",
+  "description": "Schema for representing a culture as code",
+  "required": [
+    "name",
+    "time_period",
+    "geography",
+    "core_values",
+    "social_systems",
+    "innovations",
+    "timeline",
+    "dependencies"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Name of the culture"
+    },
+    "time_period": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "string",
+          "description": "Start date of the culture (e.g., '3100 BCE')"
+        },
+        "end": {
+          "type": "string",
+          "description": "End date of the culture (e.g., '30 BCE')"
+        }
+      },
+      "required": ["start", "end"]
+    },
+    "geography": {
+      "type": "object",
+      "properties": {
+        "location": {
+          "type": "string",
+          "description": "Geographic location of the culture"
+        },
+        "major_cities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "core_values": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of core values and principles of the culture"
+    },
+    "social_systems": {
+      "type": "object",
+      "properties": {
+        "government": {
+          "type": "string",
+          "description": "Type of government system"
+        },
+        "economics": {
+          "type": "string",
+          "description": "Economic system"
+        },
+        "family_structure": {
+          "type": "string",
+          "description": "Family and household organization"
+        },
+        "gender_roles": {
+          "type": "string",
+          "description": "Defined gender roles in society"
+        }
+      }
+    },
+    "innovations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of major innovations and contributions"
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "description": "Date of the event"
+          },
+          "event": {
+            "type": "string",
+            "description": "Description of the event"
+          },
+          "commit_message": {
+            "type": "string",
+            "description": "Commit-like message for the cultural change"
+          }
+        },
+        "required": ["date", "event", "commit_message"]
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "properties": {
+        "imports": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Cultural influences imported from other cultures"
+        },
+        "exports": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Cultural influences exported to other cultures"
+        },
+        "forks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Successor cultures or splinter groups"
+        }
+      }
+    }
+  }
+}
