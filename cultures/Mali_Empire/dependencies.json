@@ -1,0 +1,19 @@
+{
+  "imports": [
+    "Ghana Empire",
+    "Islamic Civilization",
+    "Berber Trade Networks",
+    "Traditional African Cultures"
+  ],
+  "exports": [
+    "Songhai Empire",
+    "West African Islamic Culture",
+    "Trans-Saharan Trade Networks",
+    "Islamic Scholarship in Africa"
+  ],
+  "forks": [
+    "Bamana Kingdoms",
+    "Wassoulou Empire",
+    "Various Successor States"
+  ]
+}

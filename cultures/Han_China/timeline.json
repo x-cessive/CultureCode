@@ -1,0 +1,62 @@
+[
+  {
+    "date": "206 BCE",
+    "event": "Liu Bang establishes Han Dynasty after fall of Qin",
+    "commit_message": "Initial commit: Han Dynasty established after Qin collapse"
+  },
+  {
+    "date": "196-157 BCE",
+    "event": "Liu Bang's successors consolidate power, reduce Qin harshness",
+    "commit_message": "Release: Early Han consolidation and policy reforms"
+  },
+  {
+    "date": "140-87 BCE",
+    "event": "Reign of Emperor Wu (Wu Di) - expansion and Confucianism",
+    "commit_message": "Major update: Han Empire reaches greatest extent, Confucianism state ideology"
+  },
+  {
+    "date": "138 BCE",
+    "event": "Zhang Qian's missions to Central Asia - beginning of Silk Road",
+    "commit_message": "Feature: Diplomatic missions establish Silk Road trade"
+  },
+  {
+    "date": "105 BCE",
+    "event": "Cai Lun's improvement of papermaking technology",
+    "commit_message": "Innovation: Paper technology significantly improved and standardized"
+  },
+  {
+    "date": "9 CE",
+    "event": "Wang Mang's Xin Dynasty interrupts Han rule",
+    "commit_message": "Breaking change: Theorist Wang Mang temporarily disrupts Han dynasty"
+  },
+  {
+    "date": "25 CE",
+    "event": "Restoration of Han Dynasty as Eastern Han under Guangwu Di",
+    "commit_message": "Recovery: Eastern Han established after Xin Dynasty collapse"
+  },
+  {
+    "date": "73-102 CE",
+    "event": "Ban Chao's campaigns reestablish Han control over Central Asia",
+    "commit_message": "Feature: Military expansion reestablishes Silk Road control"
+  },
+  {
+    "date": "132 CE",
+    "event": "Zhang Heng invents the first seismograph",
+    "commit_message": "Innovation: Seismograph invented for earthquake detection"
+  },
+  {
+    "date": "159-189 CE",
+    "event": "Party protests - conflicts between eunuchs and scholar-officials",
+    "commit_message": "Bug fix: Political factionalism weakens central authority"
+  },
+  {
+    "date": "184 CE",
+    "event": "Yellow Turban Rebellion - major peasant uprising",
+    "commit_message": "Critical: Massive rebellion devastates Han territories and authority"
+  },
+  {
+    "date": "220 CE",
+    "event": "Cao Pi forces Emperor Xian to abdicate, ending Han Dynasty",
+    "commit_message": "End of life: Han Dynasty officially ends, beginning of Three Kingdoms period"
+  }
+]

@@ -1,0 +1,17 @@
+{
+  "imports": [
+    "Olmec",
+    "Teotihuacan",
+    "Zapotec"
+  ],
+  "exports": [
+    "Aztec",
+    "Central American",
+    "Spanish Colonial"
+  ],
+  "forks": [
+    "Northern Maya (Yucatan)",
+    "Highland Maya (Guatemala)",
+    "Postclassic Maya States"
+  ]
+}

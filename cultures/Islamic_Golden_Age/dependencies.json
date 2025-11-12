@@ -1,0 +1,20 @@
+{
+  "imports": [
+    "Greek",
+    "Persian",
+    "Indian",
+    "Byzantine"
+  ],
+  "exports": [
+    "Medieval European",
+    "Renaissance",
+    "Ottoman",
+    "Mughal",
+    "Modern Science"
+  ],
+  "forks": [
+    "Persian Islamic Scholarship",
+    "Iberian Islamic Culture",
+    "Central Asian Islamic Traditions"
+  ]
+}

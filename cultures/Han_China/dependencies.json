@@ -1,0 +1,20 @@
+{
+  "imports": [
+    "Zhou Dynasty",
+    "Qin Dynasty",
+    "Chu Culture",
+    "Central Asian",
+    "Hellenistic"
+  ],
+  "exports": [
+    "Later Chinese Dynasties",
+    "Korean",
+    "Japanese",
+    "Vietnamese",
+    "Central Asian"
+  ],
+  "forks": [
+    "Western Han",
+    "Eastern Han"
+  ]
+}

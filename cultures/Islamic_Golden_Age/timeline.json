@@ -1,0 +1,62 @@
+[
+  {
+    "date": "750 CE",
+    "event": "Abbasid Revolution - Abbasids replace Umayyads as caliphs",
+    "commit_message": "Initial commit: Abbasid Caliphate begins Islamic Golden Age"
+  },
+  {
+    "date": "762 CE",
+    "event": "Foundation of Baghdad as new capital of the Abbasid Caliphate",
+    "commit_message": "Feature: Construction of Baghdad as center of learning"
+  },
+  {
+    "date": "830 CE",
+    "event": "Establishment of the House of Wisdom (Bayt al-Hikma) in Baghdad",
+    "commit_message": "Major feature: House of Wisdom founded for translation and research"
+  },
+  {
+    "date": "820 CE",
+    "event": "Al-Khwarizmi writes foundational works on algebra and algorithms",
+    "commit_message": "Innovation: Algebra and algorithms developed"
+  },
+  {
+    "date": "988 CE",
+    "event": "Translation movement peaks - Greek works preserved and studied",
+    "commit_message": "Release: Major phase of knowledge preservation and expansion"
+  },
+  {
+    "date": "1021 CE",
+    "event": "Ibn al-Haytham completes 'Book of Optics' with revolutionary insights",
+    "commit_message": "Innovation: Optics revolutionized with experimental method"
+  },
+  {
+    "date": "1037 CE",
+    "event": "Birth of Avicenna (Ibn Sina), physician and philosopher",
+    "commit_message": "Feature: Birth of influential scholar Avicenna"
+  },
+  {
+    "date": "1126 CE",
+    "event": "Averroes (Ibn Rushd) born, major Aristotelian commentator",
+    "commit_message": "Feature: Birth of influential philosopher Averroes"
+  },
+  {
+    "date": "1150 CE",
+    "event": "Peak of Islamic scientific achievement",
+    "commit_message": "Release: Peak period of Islamic scientific contributions"
+  },
+  {
+    "date": "1206 CE",
+    "event": "Mongol invasions begin threatening Islamic centers",
+    "commit_message": "Security update: Mongol threat to Islamic learning centers"
+  },
+  {
+    "date": "1258 CE",
+    "event": "Mongols sack Baghdad, destroying the House of Wisdom",
+    "commit_message": "Critical: Destruction of Baghdad and House of Wisdom"
+  },
+  {
+    "date": "1492 CE",
+    "event": "Fall of Granada - end of Islamic rule in Iberia",
+    "commit_message": "End of life: End of Islamic Golden Age in Iberia"
+  }
+]

@@ -1,0 +1,57 @@
+[
+  {
+    "date": "1235 CE",
+    "event": "Sundiata defeats Sumanguru at Battle of Kirina, founding Mali Empire",
+    "commit_message": "Initial commit: Mali Empire founded by Sundiata Keita"
+  },
+  {
+    "date": "1235-1255 CE",
+    "event": "Sundiata establishes Manden Charter and empire structure",
+    "commit_message": "Release: Constitutional framework and administrative system established"
+  },
+  {
+    "date": "1312-1337 CE",
+    "event": "Reign of Mansa Musa I - peak of Mali's power and wealth",
+    "commit_message": "Major release: Mali Empire reaches zenith under Mansa Musa"
+  },
+  {
+    "date": "1324 CE",
+    "event": "Mansa Musa's pilgrimage to Mecca - displays Mali's wealth",
+    "commit_message": "Feature: Pilgrimage demonstrates Mali's economic and cultural influence"
+  },
+  {
+    "date": "1325 CE",
+    "event": "Construction begins on Djinguereber Mosque in Timbuktu",
+    "commit_message": "Build: Major architectural and educational project initiated"
+  },
+  {
+    "date": "1352-1353 CE",
+    "event": "Ibn Battuta visits Mali Empire",
+    "commit_message": "Feature: International recognition through scholar visit"
+  },
+  {
+    "date": "1433 CE",
+    "event": "Tuareg conquest of Timbuktu temporarily weakens Mali control",
+    "commit_message": "Security breach: Loss of control over major intellectual center"
+  },
+  {
+    "date": "1468 CE",
+    "event": "Songhai Empire conquers Timbuktu",
+    "commit_message": "Major event: Territorial losses to expanding Songhai Empire"
+  },
+  {
+    "date": "1599 CE",
+    "event": "Moroccan invasion reduces Mali's power significantly",
+    "commit_message": "Breaking change: Foreign invasion severely weakens empire"
+  },
+  {
+    "date": "1600-1670 CE",
+    "event": "Mali Empire reduced to small kingdom, eventually absorbed",
+    "commit_message": "Fork: Empire reduced to small kingdom with new political structure"
+  },
+  {
+    "date": "1670 CE",
+    "event": "Absorption of remaining Mali territory by other powers",
+    "commit_message": "End of life: Last vestiges of Mali Empire disappear"
+  }
+]

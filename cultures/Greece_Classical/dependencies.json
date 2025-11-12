@@ -1,0 +1,18 @@
+{
+  "imports": [
+    "Minoan",
+    "Mycenaean",
+    "Egyptian",
+    "Mesopotamian",
+    "Phoenician"
+  ],
+  "exports": [
+    "Hellenistic",
+    "Roman",
+    "Western",
+    "Byzantine"
+  ],
+  "forks": [
+    "Hellenistic Culture"
+  ]
+}

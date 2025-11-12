@@ -1,0 +1,67 @@
+[
+  {
+    "date": "476 CE",
+    "event": "Fall of Western Roman Empire - beginning of medieval period",
+    "commit_message": "Initial commit: Medieval period begins with Western Roman collapse"
+  },
+  {
+    "date": "529 CE",
+    "event": "Foundation of Benedictine Monastery at Monte Cassino",
+    "commit_message": "Feature: Monastic tradition foundational to medieval culture"
+  },
+  {
+    "date": "800 CE",
+    "event": "Charlemagne crowned Emperor by the Pope",
+    "commit_message": "Major release: Holy Roman Empire established, Carolingian Renaissance"
+  },
+  {
+    "date": "1066 CE",
+    "event": "Norman Conquest of England",
+    "commit_message": "Feature: Major political and social transformation in England"
+  },
+  {
+    "date": "1073-1085 CE",
+    "event": "Reign of Pope Gregory VII - Investiture Controversy",
+    "commit_message": "Security update: Church-state conflict reshapes European power structure"
+  },
+  {
+    "date": "1088 CE",
+    "event": "University of Bologna founded - first modern university",
+    "commit_message": "Innovation: First university establishes model for higher education"
+  },
+  {
+    "date": "1095 CE",
+    "event": "First Crusade proclaimed by Pope Urban II",
+    "commit_message": "Feature: Crusading movement begins, connecting Europe with Middle East"
+  },
+  {
+    "date": "1140-1200 CE",
+    "event": "Gothic cathedral building movement",
+    "commit_message": "Build: Gothic cathedral construction revolutionizes architecture"
+  },
+  {
+    "date": "1200-1300 CE",
+    "event": "High medieval prosperity and population growth",
+    "commit_message": "Release: Peak of medieval civilization and culture"
+  },
+  {
+    "date": "1347-1351 CE",
+    "event": "Black Death pandemic devastates European population",
+    "commit_message": "Critical: Bubonic plague causes massive demographic and social crisis"
+  },
+  {
+    "date": "1337-1453 CE",
+    "event": "Hundred Years' War between England and France",
+    "commit_message": "Major update: Long war transforms military and political systems"
+  },
+  {
+    "date": "1453 CE",
+    "event": "Fall of Constantinople to Ottoman Turks",
+    "commit_message": "Security breach: End of Byzantine Empire, affects medieval balance"
+  },
+  {
+    "date": "1492 CE",
+    "event": "Columbus reaches Americas - beginning of early modern period",
+    "commit_message": "End of life: Medieval period ends with Age of Discovery"
+  }
+]

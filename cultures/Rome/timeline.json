@@ -1,0 +1,72 @@
+[
+  {
+    "date": "753 BCE",
+    "event": "Traditional founding of Rome by Romulus",
+    "commit_message": "Initial commit: Foundation of Rome"
+  },
+  {
+    "date": "509 BCE",
+    "event": "Establishment of the Roman Republic - expulsion of the last king",
+    "commit_message": "Major update: Transition from monarchy to republic"
+  },
+  {
+    "date": "264-146 BCE",
+    "event": "Punic Wars vs Carthage - Rome gains dominance in Mediterranean",
+    "commit_message": "Feature: Rome establishes Mediterranean hegemony"
+  },
+  {
+    "date": "133-49 BCE",
+    "event": "Social and political conflicts of the Late Republic",
+    "commit_message": "Bug fix attempt: Various reforms to address social issues"
+  },
+  {
+    "date": "49 BCE",
+    "event": "Caesar crosses the Rubicon, begins civil war",
+    "commit_message": "Breaking change: Constitutional crisis begins with Civil War"
+  },
+  {
+    "date": "44 BCE",
+    "event": "Assassination of Julius Caesar",
+    "commit_message": "Critical: Caesar's assassination leads to further civil wars"
+  },
+  {
+    "date": "27 BCE",
+    "event": "Augustus becomes first Roman Emperor - beginning of Empire",
+    "commit_message": "Major release: Roman Empire established, Pax Romana begins"
+  },
+  {
+    "date": "98-180 CE",
+    "event": "Pax Romana - height of Roman power and prosperity",
+    "commit_message": "Release: Golden Age of Roman Empire, territorial expansion"
+  },
+  {
+    "date": "122 CE",
+    "event": "Construction of Hadrian's Wall in Britain",
+    "commit_message": "Build: Construction of defensive wall in northern Britain"
+  },
+  {
+    "date": "212 CE",
+    "event": "Constitutio Antoniniana - citizenship granted to all free inhabitants",
+    "commit_message": "Feature: Extension of Roman citizenship to all free people in Empire"
+  },
+  {
+    "date": "284 CE",
+    "event": "Diocletian becomes emperor, institutes major reforms",
+    "commit_message": "Major update: Administrative reorganization, division of Empire"
+  },
+  {
+    "date": "330 CE",
+    "event": "Constantine founds Constantinople, new capital of Empire",
+    "commit_message": "Feature: Eastern capital established, shift in power center"
+  },
+  {
+    "date": "395 CE",
+    "event": "Empire permanently divided into Western and Eastern halves",
+    "commit_message": "Fork: Permanent division into Western and Eastern Roman Empires"
+  },
+  {
+    "date": "476 CE",
+    "event": "Fall of Western Roman Empire - Odoacer deposes Romulus Augustulus",
+    "commit_message": "End of life: Western Roman Empire falls to Germanic chieftain"
+  }
+]

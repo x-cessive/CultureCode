@@ -1,0 +1,18 @@
+{
+  "imports": [
+    "Etruscan",
+    "Greek",
+    "Italic",
+    "Carthaginian"
+  ],
+  "exports": [
+    "Byzantine",
+    "Western European",
+    "Christian",
+    "Legal Systems Worldwide"
+  ],
+  "forks": [
+    "Western Roman Empire",
+    "Eastern Roman (Byzantine) Empire"
+  ]
+}

@@ -1,0 +1,62 @@
+[
+  {
+    "date": "490 BCE",
+    "event": "Battle of Marathon - Athens defeats Persian invasion",
+    "commit_message": "Feature: Athenian military victory establishes confidence in democratic system"
+  },
+  {
+    "date": "480-479 BCE",
+    "event": "Second Persian War - Greek victory at Salamis and Plataea",
+    "commit_message": "Major release: Greek alliance defeats massive Persian invasion"
+  },
+  {
+    "date": "477 BCE",
+    "event": "Formation of Delian League under Athenian leadership",
+    "commit_message": "Feature: Establishment of maritime confederation for mutual defense"
+  },
+  {
+    "date": "461-429 BCE",
+    "event": "Age of Pericles - Athenian Golden Age",
+    "commit_message": "Release: Peak period of Athenian democracy, culture, and building program"
+  },
+  {
+    "date": "447 BCE",
+    "event": "Construction begins on Parthenon under Pericles",
+    "commit_message": "Build: Construction of the Parthenon begins on the Acropolis"
+  },
+  {
+    "date": "431-404 BCE",
+    "event": "Peloponnesian War between Athens and Sparta",
+    "commit_message": "Bug fix: Internal Greek conflict weakens all city-states"
+  },
+  {
+    "date": "429 BCE",
+    "event": "Death of Pericles from plague during Peloponnesian War",
+    "commit_message": "Critical: Loss of leadership causes political instability"
+  },
+  {
+    "date": "399 BCE",
+    "event": "Trial and death of Socrates",
+    "commit_message": "Breaking change: Execution of philosopher highlights tensions in society"
+  },
+  {
+    "date": "387 BCE",
+    "event": "Plato founds the Academy in Athens",
+    "commit_message": "Feature: First European institution of higher learning established"
+  },
+  {
+    "date": "359 BCE",
+    "event": "Philip II becomes king of Macedon",
+    "commit_message": "Security update: Rise of Macedonian power threatens Greek independence"
+  },
+  {
+    "date": "338 BCE",
+    "event": "Battle of Chaeronea - Philip II defeats Athens and Thebes",
+    "commit_message": "End of life: Greek city-states lose independence to Macedonia"
+  },
+  {
+    "date": "323 BCE",
+    "event": "Death of Alexander the Great, end of Classical period",
+    "commit_message": "Fork: Classical Greece transitions to Hellenistic period"
+  }
+]

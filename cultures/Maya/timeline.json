@@ -1,0 +1,62 @@
+[
+  {
+    "date": "2000 BCE",
+    "event": "Early Preclassic period begins - earliest Maya settlements",
+    "commit_message": "Initial commit: Early Maya settlements and agriculture"
+  },
+  {
+    "date": "1000 BCE",
+    "event": "Development of ceremonial centers and monumental architecture",
+    "commit_message": "Feature: First ceremonial centers and religious architecture"
+  },
+  {
+    "date": "300 BCE - 250 CE",
+    "event": "Late Preclassic period - rise of complex societies",
+    "commit_message": "Release: Complex societies and early hieroglyphic writing"
+  },
+  {
+    "date": "250 CE",
+    "event": "Beginning of Classic period - major city-states emerge",
+    "commit_message": "Major release: Classic period begins, major city-states rise"
+  },
+  {
+    "date": "378 CE",
+    "event": "Arrival of Teotihuacan-influenced dynasty in Tikal",
+    "commit_message": "Feature: Political changes with Teotihuacan influence"
+  },
+  {
+    "date": "600-800 CE",
+    "event": "Classic period peak - Tikal, Calakmul, Copan at height",
+    "commit_message": "Release: Golden age of Maya civilization"
+  },
+  {
+    "date": "738 CE",
+    "event": "Defeat of Copan ruler 18-Rabbit by Quirigua",
+    "commit_message": "Security breach: Major political upheaval in Copan"
+  },
+  {
+    "date": "763 CE",
+    "event": "Calakmul defeated by Tikal in decisive battle",
+    "commit_message": "Major event: Shift in power balance between major city-states"
+  },
+  {
+    "date": "800-950 CE",
+    "event": "Classic Maya collapse - abandonment of many southern lowland centers",
+    "commit_message": "Critical: Collapse of southern lowland centers"
+  },
+  {
+    "date": "987 CE",
+    "event": "Toltec conquest of Chichen Itza",
+    "commit_message": "Breaking change: Northern Yucatan centers influenced by Toltecs"
+  },
+  {
+    "date": "1200-1500 CE",
+    "event": "Postclassic period - Maya states like Mayapan dominate",
+    "commit_message": "Fork: Postclassic period with new political arrangements"
+  },
+  {
+    "date": "1524-1697 CE",
+    "event": "Spanish conquest of Maya territories",
+    "commit_message": "End of life: Spanish conquest ends independent Maya civilization"
+  }
+]

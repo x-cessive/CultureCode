@@ -1,0 +1,20 @@
+{
+  "imports": [
+    "Roman",
+    "Germanic",
+    "Christian",
+    "Byzantine",
+    "Islamic"
+  ],
+  "exports": [
+    "Renaissance",
+    "Early Modern Europe",
+    "Colonial Americas",
+    "Modern Western Civilization"
+  ],
+  "forks": [
+    "Holy Roman Empire",
+    "Byzantine Empire",
+    "Various National Kingdoms"
+  ]
+}
