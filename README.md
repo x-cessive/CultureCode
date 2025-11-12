@@ -143,6 +143,10 @@ We've created a Python Flask web application that provides an interactive interf
    ```bash
    pip install -r requirements.txt
    ```
+   On Arch-based systems (like Manjaro):
+   ```bash
+   sudo pacman -S python-flask python-yaml python-markdown python-requests
+   ```
 
 2. Run the application:
    ```bash
@@ -155,6 +159,24 @@ We've created a Python Flask web application that provides an interactive interf
    ```
 
 3. Visit `http://localhost:5000` in your browser
+
+### Using GitHub Data Fetch Mode
+
+By default, the application reads culture data from your local repository. 
+You can configure it to fetch data directly from the GitHub repository:
+
+1. Set the environment variable:
+   ```bash
+   export USE_GITHUB_FETCH=true
+   ```
+   
+2. Then run the application as normal:
+   ```bash
+   cd app
+   python app.py
+   ```
+
+When using GitHub fetch mode, the application will pull the latest culture data directly from the online repository, ensuring you always see the most up-to-date information without needing to update your local copy.
 
 ### Features
 

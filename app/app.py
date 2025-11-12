@@ -12,90 +12,111 @@ from flask import Flask, render_template, request, jsonify
 import markdown
 from datetime import datetime
 
+from github_fetcher import fetch_culture_data, fetch_all_cultures as fetch_all_from_github
+
 
 app = Flask(__name__)
 
-# Configuration
+# Configuration - Use local files as fallback, but can fetch from GitHub
+USE_GITHUB_FETCH = os.getenv('USE_GITHUB_FETCH', 'false').lower() == 'true'
 CULTURES_DIR = Path("cultures")
 SCHEMA_DIR = Path("schema")
 
 
 def load_culture_data(culture_name):
-    """Load all data for a specific culture."""
-    culture_path = CULTURES_DIR / culture_name
-    
-    if not culture_path.exists():
-        return None
-    
-    data = {"name": culture_name, "directory": culture_name}
-    
-    # Load README
-    readme_path = culture_path / "README.md"
-    if readme_path.exists():
-        with open(readme_path, 'r', encoding='utf-8') as f:
-            data['readme_raw'] = f.read()
-            data['readme_html'] = markdown.markdown(f.read())
-    
-    # Load values
-    values_path = culture_path / "values.yaml"
-    if values_path.exists():
-        with open(values_path, 'r', encoding='utf-8') as f:
-            try:
-                data['values'] = yaml.safe_load(f)
-            except yaml.YAMLError:
-                data['values'] = {}
-    
-    # Load social systems
-    social_path = culture_path / "social_systems.md"
-    if social_path.exists():
-        with open(social_path, 'r', encoding='utf-8') as f:
-            data['social_systems_raw'] = f.read()
-            data['social_systems_html'] = markdown.markdown(f.read())
-    
-    # Load innovations
-    innovations_path = culture_path / "innovations.md"
-    if innovations_path.exists():
-        with open(innovations_path, 'r', encoding='utf-8') as f:
-            data['innovations_raw'] = f.read()
-            data['innovations_html'] = markdown.markdown(f.read())
-    
-    # Load timeline
-    timeline_path = culture_path / "timeline.json"
-    if timeline_path.exists():
-        with open(timeline_path, 'r', encoding='utf-8') as f:
-            try:
-                data['timeline'] = json.load(f)
-            except json.JSONDecodeError:
-                data['timeline'] = []
-    
-    # Load dependencies
-    dependencies_path = culture_path / "dependencies.json"
-    if dependencies_path.exists():
-        with open(dependencies_path, 'r', encoding='utf-8') as f:
-            try:
-                data['dependencies'] = json.load(f)
-            except json.JSONDecodeError:
-                data['dependencies'] = {}
-    
-    return data
+    """
+    Load culture data either from local files or from GitHub.
+    This function maintains backward compatibility with the local file approach
+    while providing the option to fetch from GitHub.
+    """
+    if USE_GITHUB_FETCH:
+        # Fetch from GitHub
+        return fetch_culture_data(culture_name)
+    else:
+        # Use local files (original implementation)
+        culture_path = CULTURES_DIR / culture_name
+        
+        if not culture_path.exists():
+            # If local files don't exist, try fetching from GitHub
+            return fetch_culture_data(culture_name)
+        
+        data = {"name": culture_name, "directory": culture_name}
+        
+        # Load README
+        readme_path = culture_path / "README.md"
+        if readme_path.exists():
+            with open(readme_path, 'r', encoding='utf-8') as f:
+                data['readme_raw'] = f.read()
+                data['readme_html'] = markdown.markdown(f.read())
+        
+        # Load values
+        values_path = culture_path / "values.yaml"
+        if values_path.exists():
+            with open(values_path, 'r', encoding='utf-8') as f:
+                try:
+                    data['values'] = yaml.safe_load(f)
+                except yaml.YAMLError:
+                    data['values'] = {}
+        
+        # Load social systems
+        social_path = culture_path / "social_systems.md"
+        if social_path.exists():
+            with open(social_path, 'r', encoding='utf-8') as f:
+                data['social_systems_raw'] = f.read()
+                data['social_systems_html'] = markdown.markdown(f.read())
+        
+        # Load innovations
+        innovations_path = culture_path / "innovations.md"
+        if innovations_path.exists():
+            with open(innovations_path, 'r', encoding='utf-8') as f:
+                data['innovations_raw'] = f.read()
+                data['innovations_html'] = markdown.markdown(f.read())
+        
+        # Load timeline
+        timeline_path = culture_path / "timeline.json"
+        if timeline_path.exists():
+            with open(timeline_path, 'r', encoding='utf-8') as f:
+                try:
+                    data['timeline'] = json.load(f)
+                except json.JSONDecodeError:
+                    data['timeline'] = []
+        
+        # Load dependencies
+        dependencies_path = culture_path / "dependencies.json"
+        if dependencies_path.exists():
+            with open(dependencies_path, 'r', encoding='utf-8') as f:
+                try:
+                    data['dependencies'] = json.load(f)
+                except json.JSONDecodeError:
+                    data['dependencies'] = {}
+        
+        return data
 
 
 def get_all_cultures():
-    """Get a list of all available cultures."""
-    if not CULTURES_DIR.exists():
-        return []
-    
-    cultures = []
-    for culture_dir in CULTURES_DIR.iterdir():
-        if culture_dir.is_dir():
-            # Try to load basic data to ensure it's a valid culture
-            basic_data = load_culture_data(culture_dir.name)
-            if basic_data:
-                cultures.append(basic_data)
-    
-    # Sort cultures by name
-    cultures.sort(key=lambda x: x['name'])
-    return cultures
+    """
+    Get a list of all available cultures.
+    Uses GitHub fetcher if configured, otherwise uses local files.
+    """
+    if USE_GITHUB_FETCH:
+        return fetch_all_from_github()
+    else:
+        # Original implementation for local files
+        if not CULTURES_DIR.exists():
+            # If local files don't exist, fetch from GitHub
+            return fetch_all_from_github()
+        
+        cultures = []
+        for culture_dir in CULTURES_DIR.iterdir():
+            if culture_dir.is_dir():
+                # Try to load basic data to ensure it's a valid culture
+                basic_data = load_culture_data(culture_dir.name)
+                if basic_data:
+                    cultures.append(basic_data)
+        
+        # Sort cultures by name
+        cultures.sort(key=lambda x: x['name'])
+        return cultures
 
 
 def get_culture_names():
