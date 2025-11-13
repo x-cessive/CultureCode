@@ -1,0 +1,4 @@
+kivy
+pyyaml
+pillow
+requests
