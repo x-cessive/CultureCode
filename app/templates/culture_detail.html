@@ -71,29 +71,10 @@
         <div class="d-flex justify-content-between align-items-start mb-4">
             <div>
                 <h1>{{ culture.name.replace('_', ' ') }}</h1>
-                {% if culture.get('readme_raw') %}
-                {% set readme = culture['readme_raw'] %}
-                {% set time_period = 'Time period not specified' %}
-                {% set geography = 'Geography not specified' %}
-                {% set political_system = 'Political system not specified' %}
-                {% set major_innovations = 'Major innovations not specified' %}
-                
-                {% for line in readme.split('\n') %}
-                    {% if 'Time Period:' in line %}
-                        {% set time_period = line.replace('**Time Period:**', '').replace('**', '').strip() %}
-                    {% elif 'Geography:' in line %}
-                        {% set geography = line.replace('**Geography:**', '').replace('**', '').strip() %}
-                    {% elif 'Political System:' in line %}
-                        {% set political_system = line.replace('**Political System:**', '').replace('**', '').strip() %}
-                    {% elif 'Major Innovations:' in line %}
-                        {% set major_innovations = line.replace('**Major Innovations:**', '').replace('**', '').strip() %}
-                    {% endif %}
-                {% endfor %}
-                
-                <p class="lead">{{ time_period }}</p>
-                <p><strong>Geography:</strong> {{ geography }}</p>
-                <p><strong>Political System:</strong> {{ political_system }}</p>
-                <p><strong>Major Innovations:</strong> {{ major_innovations }}</p>
+                <p class="lead">{{ culture.time_period }}</p>
+                <p><strong>Geography:</strong> {{ culture.geography }}</p>
+                <p><strong>Political System:</strong> {{ culture.political_system }}</p>
+                <p><strong>Major Innovations:</strong> {{ culture.major_innovations }}</p>
             </div>
             <a href="https://github.com/x-cessive/CultureCode/tree/main/cultures/{{ culture.name }}" 
                class="btn btn-outline-primary" target="_blank">

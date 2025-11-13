@@ -31,66 +31,108 @@ def load_culture_data(culture_name):
     """
     if USE_GITHUB_FETCH:
         # Fetch from GitHub
-        return fetch_culture_data(culture_name)
+        data = fetch_culture_data(culture_name)
     else:
         # Use local files (original implementation)
         culture_path = CULTURES_DIR / culture_name
         
         if not culture_path.exists():
             # If local files don't exist, try fetching from GitHub
-            return fetch_culture_data(culture_name)
+            data = fetch_culture_data(culture_name)
+        else:
+            data = {"name": culture_name, "directory": culture_name}
+            
+            # Load README
+            readme_path = culture_path / "README.md"
+            if readme_path.exists():
+                with open(readme_path, 'r', encoding='utf-8') as f:
+                    data['readme_raw'] = f.read()
+                    data['readme_html'] = markdown.markdown(f.read())
+            
+            # Load values
+            values_path = culture_path / "values.yaml"
+            if values_path.exists():
+                with open(values_path, 'r', encoding='utf-8') as f:
+                    try:
+                        data['values'] = yaml.safe_load(f)
+                    except yaml.YAMLError:
+                        data['values'] = {}
+            
+            # Load social systems
+            social_path = culture_path / "social_systems.md"
+            if social_path.exists():
+                with open(social_path, 'r', encoding='utf-8') as f:
+                    data['social_systems_raw'] = f.read()
+                    data['social_systems_html'] = markdown.markdown(f.read())
+            
+            # Load innovations
+            innovations_path = culture_path / "innovations.md"
+            if innovations_path.exists():
+                with open(innovations_path, 'r', encoding='utf-8') as f:
+                    data['innovations_raw'] = f.read()
+                    data['innovations_html'] = markdown.markdown(f.read())
+            
+            # Load timeline
+            timeline_path = culture_path / "timeline.json"
+            if timeline_path.exists():
+                with open(timeline_path, 'r', encoding='utf-8') as f:
+                    try:
+                        data['timeline'] = json.load(f)
+                    except json.JSONDecodeError:
+                        data['timeline'] = []
+            
+            # Load dependencies
+            dependencies_path = culture_path / "dependencies.json"
+            if dependencies_path.exists():
+                with open(dependencies_path, 'r', encoding='utf-8') as f:
+                    try:
+                        data['dependencies'] = json.load(f)
+                    except json.JSONDecodeError:
+                        data['dependencies'] = {}
+    
+    # Extract key information from README for easy template access
+    if 'readme_raw' in data:
+        readme = data['readme_raw']
         
-        data = {"name": culture_name, "directory": culture_name}
+        # Extract time period
+        time_period = "Time period not specified"
+        for line in readme.split('\n'):
+            if 'Time Period:' in line:
+                time_period = line.replace('**Time Period:**', '').replace('**', '').strip()
+                break
+        data['time_period'] = time_period
         
-        # Load README
-        readme_path = culture_path / "README.md"
-        if readme_path.exists():
-            with open(readme_path, 'r', encoding='utf-8') as f:
-                data['readme_raw'] = f.read()
-                data['readme_html'] = markdown.markdown(f.read())
+        # Extract geography
+        geography = "Geography not specified"
+        for line in readme.split('\n'):
+            if 'Geography:' in line:
+                geography = line.replace('**Geography:**', '').replace('**', '').strip()
+                break
+        data['geography'] = geography
         
-        # Load values
-        values_path = culture_path / "values.yaml"
-        if values_path.exists():
-            with open(values_path, 'r', encoding='utf-8') as f:
-                try:
-                    data['values'] = yaml.safe_load(f)
-                except yaml.YAMLError:
-                    data['values'] = {}
+        # Extract political system
+        political_system = "Political system not specified"
+        for line in readme.split('\n'):
+            if 'Political System:' in line:
+                political_system = line.replace('**Political System:**', '').replace('**', '').strip()
+                break
+        data['political_system'] = political_system
         
-        # Load social systems
-        social_path = culture_path / "social_systems.md"
-        if social_path.exists():
-            with open(social_path, 'r', encoding='utf-8') as f:
-                data['social_systems_raw'] = f.read()
-                data['social_systems_html'] = markdown.markdown(f.read())
-        
-        # Load innovations
-        innovations_path = culture_path / "innovations.md"
-        if innovations_path.exists():
-            with open(innovations_path, 'r', encoding='utf-8') as f:
-                data['innovations_raw'] = f.read()
-                data['innovations_html'] = markdown.markdown(f.read())
-        
-        # Load timeline
-        timeline_path = culture_path / "timeline.json"
-        if timeline_path.exists():
-            with open(timeline_path, 'r', encoding='utf-8') as f:
-                try:
-                    data['timeline'] = json.load(f)
-                except json.JSONDecodeError:
-                    data['timeline'] = []
-        
-        # Load dependencies
-        dependencies_path = culture_path / "dependencies.json"
-        if dependencies_path.exists():
-            with open(dependencies_path, 'r', encoding='utf-8') as f:
-                try:
-                    data['dependencies'] = json.load(f)
-                except json.JSONDecodeError:
-                    data['dependencies'] = {}
-        
-        return data
+        # Extract major innovations
+        major_innovations = "Major innovations not specified"
+        for line in readme.split('\n'):
+            if 'Major Innovations:' in line:
+                major_innovations = line.replace('**Major Innovations:**', '').replace('**', '').strip()
+                break
+        data['major_innovations'] = major_innovations
+    else:
+        # Set defaults if readme is not available
+        data['time_period'] = "Time period not specified"
+        data['geography'] = "Geography not specified"
+        data['political_system'] = "Political system not specified"
+        data['major_innovations'] = "Major innovations not specified"
+    
+    return data
 
 
 def get_all_cultures():
@@ -300,7 +342,12 @@ def timeline():
                 date_str = event.get('date', '')
                 # Simple attempt to extract the year
                 import re
-                years = re.findall(r'(\d+)\s*CE|BCE|BC|AD', date_str)
+                # This pattern captures the year before CE/BCE/BC/AD
+                years = re.findall(r'([0-9]+)\s*(?:BCE|BC|CE|AD)', date_str)
+                # Also try to match just a year without a period indicator
+                if not years:
+                    years = re.findall(r'^([0-9]+)', date_str.split()[0] if date_str.split() else '')
+                
                 if years:
                     year = int(years[0])
                     if 'BCE' in date_str or 'BC' in date_str:
