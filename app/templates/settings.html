@@ -111,14 +111,14 @@
         darkModeToggle.addEventListener('change', function() {
             if (this.checked) {
                 document.body.classList.add('dark-theme');
-                document.documentElement.style.setProperty('--bs-body-bg', '#212529');
-                document.documentElement.style.setProperty('--bs-body-color', '#dee2e6');
-                // Set cookie for dark theme
+                // Set localStorage for dark theme
+                localStorage.setItem('theme', 'dark');
+                // Also set cookie for server-side detection if needed
                 document.cookie = "theme=dark; path=/; max-age=" + (365 * 24 * 60 * 60);
             } else {
                 document.body.classList.remove('dark-theme');
-                document.documentElement.style.setProperty('--bs-body-bg', '#fff');
-                document.documentElement.style.setProperty('--bs-body-color', '#212529');
+                // Set localStorage for light theme
+                localStorage.setItem('theme', 'light');
                 // Remove cookie
                 document.cookie = "theme=; path=/; max-age=0";
             }
@@ -138,10 +138,14 @@
         });
     }
     
-    // Check if dark mode is enabled based on cookie
+    // Check if dark mode is enabled based on localStorage
     window.addEventListener('DOMContentLoaded', function() {
+        const localStorageTheme = localStorage.getItem('theme');
         const cookieTheme = getCookie('theme');
-        if (cookieTheme === 'dark') {
+        // Prefer localStorage if available, otherwise use cookie
+        const activeTheme = localStorageTheme || cookieTheme;
+        
+        if (activeTheme === 'dark') {
             darkModeToggle.checked = true;
             document.body.classList.add('dark-theme');
             toggleDarkMode(false);
@@ -197,7 +201,8 @@
             document.getElementById('autoRefreshToggle').checked = true;
             document.getElementById('densityComfortable').checked = true;
             
-            // Remove cookie
+            // Clear localStorage and cookie
+            localStorage.removeItem('theme');
             document.cookie = "theme=; path=/; max-age=0";
             
             // Apply resets

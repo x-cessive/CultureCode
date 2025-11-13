@@ -120,16 +120,51 @@
             }, 5000);
         }
         
-        // Check for saved theme preference
-        window.addEventListener('DOMContentLoaded', function() {
-            const savedTheme = localStorage.getItem('theme');
+        // Apply saved theme preference immediately to prevent flash of unstyled content
+        (function() {
+            // Check both localStorage and cookie for theme preference
+            const localStorageTheme = localStorage.getItem('theme');
+            const cookieTheme = getCookie('theme');
             
-            if (savedTheme === 'dark') {
+            // Prefer localStorage if available, otherwise use cookie
+            const activeTheme = localStorageTheme || cookieTheme;
+            
+            if (activeTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+            } else if (activeTheme === 'light') {
+                document.body.classList.remove('dark-theme');
+            }
+            // If no preference is saved, the default (light) is used
+        })();
+        
+        // Apply theme preference on page load
+        window.addEventListener('DOMContentLoaded', function() {
+            // Check both localStorage and cookie for theme preference
+            const localStorageTheme = localStorage.getItem('theme');
+            const cookieTheme = getCookie('theme');
+            
+            // Prefer localStorage if available, otherwise use cookie
+            const activeTheme = localStorageTheme || cookieTheme;
+            
+            if (activeTheme === 'dark') {
                 document.body.classList.add('dark-theme');
                 // Update any theme-sensitive elements
                 updateThemeElements(true);
             }
+            
+            // Update the dark mode toggle if it exists
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            if (darkModeToggle) {
+                darkModeToggle.checked = (activeTheme === 'dark');
+            }
         });
+        
+        // Helper function to get cookie value
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
         
         function updateThemeElements(isDark) {
             // Function to update theme-sensitive elements
