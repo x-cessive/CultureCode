@@ -152,6 +152,25 @@ def culture_detail(culture_name):
     return render_template('culture_detail.html', culture=culture_data, all_cultures=all_cultures)
 
 
+@app.route('/update-from-github')
+def update_from_github():
+    """Refresh data by fetching from GitHub."""
+    from github_fetcher import fetch_all_cultures as fetch_all_from_github
+    try:
+        # This just tests the connection to GitHub
+        cultures = fetch_all_from_github()
+        return jsonify({
+            "status": "success", 
+            "message": f"Successfully fetched {len(cultures)} cultures from GitHub",
+            "cultures_count": len(cultures)
+        })
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": f"Error fetching from GitHub: {str(e)}"
+        }), 500
+
+
 @app.route('/api/cultures')
 def api_cultures():
     """API endpoint to get all cultures as JSON."""
