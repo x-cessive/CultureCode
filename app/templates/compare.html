@@ -11,7 +11,7 @@
         <label for="culture1Select" class="form-label">First Culture</label>
         <select class="form-select" id="culture1Select">
             <option value="">Select a culture</option>
-            {% for culture in cultures %}
+            {% for culture in all_cultures %}
             <option value="{{ culture }}" {% if request.args.get('culture1') == culture %}selected{% endif %}>{{ culture.replace('_', ' ') }}</option>
             {% endfor %}
         </select>
@@ -25,7 +25,7 @@
         <label for="culture2Select" class="form-label">Second Culture</label>
         <select class="form-select" id="culture2Select">
             <option value="">Select a culture</option>
-            {% for culture in cultures %}
+            {% for culture in all_cultures %}
             <option value="{{ culture }}" {% if request.args.get('culture2') == culture %}selected{% endif %}>{{ culture.replace('_', ' ') }}</option>
             {% endfor %}
         </select>
