@@ -19,8 +19,8 @@ app = Flask(__name__)
 
 # Configuration - Use local files as fallback, but can fetch from GitHub
 USE_GITHUB_FETCH = os.getenv('USE_GITHUB_FETCH', 'false').lower() == 'true'
-CULTURES_DIR = Path("cultures")
-SCHEMA_DIR = Path("schema")
+CULTURES_DIR = Path(__file__).parent.parent / "cultures"
+SCHEMA_DIR = Path(__file__).parent.parent / "schema"
 
 
 def load_culture_data(culture_name):
