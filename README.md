@@ -186,6 +186,75 @@ When using GitHub fetch mode, the application will pull the latest culture data 
 - **API Access**: JSON endpoints at `/api/cultures` and `/api/culture/{name}`
 - **GitHub Integration**: Links to source files for each culture
 - **Interactive Elements**: Search, filter, and navigate through history
+- **Settings Page**: Customize your experience with themes and display options
+
+## 🖥️ Desktop GUI Application
+
+We've also created a desktop GUI application using Python tkinter:
+
+- **Native desktop experience** with a familiar interface
+- **Full functionality** matching the web application
+- **Culture browsing** with tabbed interfaces
+- **Comparison tools** for analyzing civilizations
+- **Timeline visualization** of historical events
+- **GitHub data refresh** to get the latest information
+
+### Installation and Running
+
+1. Install Python dependencies:
+   ```bash
+   cd gui_app
+   pip install -r requirements.txt
+   ```
+   On Arch-based systems:
+   ```bash
+   sudo pacman -S python-tkinter python-yaml python-markdown python-pillow python-requests
+   ```
+
+2. Run the application:
+   ```bash
+   python main.py
+   ```
+
+## 📱 Android Application
+
+An Android version of the application built with Kivy:
+
+- **Mobile-optimized interface** designed for touch screens
+- **Full access** to the same cultural data
+- **Culture browsing** with efficient list views
+- **Comparison feature** for mobile users
+- **Ready for packaging** as an APK with Buildozer
+
+### Building the APK
+
+1. Install Buildozer:
+   ```bash
+   pip install buildozer
+   ```
+
+2. In the android_app directory, run:
+   ```bash
+   buildozer android debug
+   ```
+
+3. The APK will be created in the `bin/` directory
+
+### Features
+
+- Browse all documented cultures with rich detail pages
+- Compare different civilizations side-by-side  
+- Mobile-optimized interface with touch-friendly controls
+- Access to the same cultural data as desktop and web versions
+
+## 🚀 All Applications Include:
+
+- **8 Major Historical Cultures**: Egypt, Greece, Rome, China, Maya, Islamic Golden Age, Medieval Europe, Mali Empire
+- **Complete Documentation**: Values, social systems, innovations, timelines, dependencies
+- **Comparison Tools**: Analyze similarities and differences between civilizations
+- **Timeline Visualizations**: Understand temporal relationships between cultures
+- **GitHub Integration**: Refresh data to get the latest information
+- **Responsive Design**: Works across different device types
 
 ## ⚙️ Tools & Automation
 
