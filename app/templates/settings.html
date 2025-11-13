@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - The Hitchhiker's Guide to History{% endblock %}
+
+{% block content %}
+<div class="settings-container">
+    <h1>Settings</h1>
+    <p class="lead">Customize your experience on The Hitchhiker's Guide to History</p>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Appearance</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h5>Theme</h5>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="darkModeToggle" {{ 'checked' if request.cookies.get('theme') == 'dark' else '' }}>
+                            <label class="form-check-label" for="darkModeToggle">
+                                Dark Mode
+                            </label>
+                        </div>
+                        <p class="text-muted mt-2">Switch between light and dark themes for comfortable viewing in different lighting conditions.</p>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5>Font Size</h5>
+                        <div>
+                            <label for="fontSizeSlider" class="form-label">Adjust text size: <span id="fontSizeValue">16px</span></label>
+                            <input type="range" class="form-range" min="12" max="24" step="1" id="fontSizeSlider" value="16">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5>Display Density</h5>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="densityRadio" id="densityComfortable" value="comfortable" checked>
+                            <label class="form-check-label" for="densityComfortable">
+                                Comfortable (Default)
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="densityRadio" id="densityCompact" value="compact">
+                            <label class="form-check-label" for="densityCompact">
+                                Compact
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="densityRadio" id="densitySpacious" value="spacious">
+                            <label class="form-check-label" for="densitySpacious">
+                                Spacious
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>Data & Privacy</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h5>Auto-refresh</h5>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="autoRefreshToggle" checked>
+                            <label class="form-check-label" for="autoRefreshToggle">
+                                Enable automatic data refresh
+                            </label>
+                        </div>
+                        <p class="text-muted mt-2">Allow the app to periodically fetch updated cultural data from the repository.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3>About</h3>
+                </div>
+                <div class="card-body">
+                    <h5>The Hitchhiker's Guide to History</h5>
+                    <p class="text-muted">Version 1.0</p>
+                    <p>A CultureCode project that treats culture like code, documenting, forking, version-controlling, and collaboratively exploring the evolution of human societies.</p>
+                    <a href="https://github.com/x-cessive/CultureCode" target="_blank" class="btn btn-outline-primary">View on GitHub</a>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3>Quick Actions</h3>
+                </div>
+                <div class="card-body">
+                    <button class="btn btn-outline-primary w-100 mb-2" onclick="refreshData()">Refresh Cultural Data</button>
+                    <button class="btn btn-outline-secondary w-100" onclick="resetSettings()">Reset to Defaults</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Dark mode toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('change', function() {
+            if (this.checked) {
+                document.body.classList.add('dark-theme');
+                document.documentElement.style.setProperty('--bs-body-bg', '#212529');
+                document.documentElement.style.setProperty('--bs-body-color', '#dee2e6');
+                // Set cookie for dark theme
+                document.cookie = "theme=dark; path=/; max-age=" + (365 * 24 * 60 * 60);
+            } else {
+                document.body.classList.remove('dark-theme');
+                document.documentElement.style.setProperty('--bs-body-bg', '#fff');
+                document.documentElement.style.setProperty('--bs-body-color', '#212529');
+                // Remove cookie
+                document.cookie = "theme=; path=/; max-age=0";
+            }
+            // Toggle dark mode classes on other elements as needed
+            toggleDarkMode(!this.checked);
+        });
+    }
+    
+    // Font size slider
+    const fontSizeSlider = document.getElementById('fontSizeSlider');
+    const fontSizeValue = document.getElementById('fontSizeValue');
+    
+    if (fontSizeSlider && fontSizeValue) {
+        fontSizeSlider.addEventListener('input', function() {
+            fontSizeValue.textContent = this.value + 'px';
+            document.documentElement.style.fontSize = this.value + 'px';
+        });
+    }
+    
+    // Check if dark mode is enabled based on cookie
+    window.addEventListener('DOMContentLoaded', function() {
+        const cookieTheme = getCookie('theme');
+        if (cookieTheme === 'dark') {
+            darkModeToggle.checked = true;
+            document.body.classList.add('dark-theme');
+            toggleDarkMode(false);
+        }
+    });
+    
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+    
+    function toggleDarkMode(isLight) {
+        const body = document.body;
+        const cards = document.querySelectorAll('.card');
+        const cardHeaders = document.querySelectorAll('.card-header');
+        
+        if (!isLight) {
+            // Dark mode styles
+            body.classList.add('dark-theme');
+            cards.forEach(card => card.classList.add('bg-dark', 'text-light'));
+            cardHeaders.forEach(header => header.classList.add('bg-secondary'));
+        } else {
+            // Light mode styles
+            body.classList.remove('dark-theme');
+            cards.forEach(card => card.classList.remove('bg-dark', 'text-light'));
+            cardHeaders.forEach(header => header.classList.remove('bg-secondary'));
+        }
+    }
+    
+    function refreshData() {
+        // Call the GitHub refresh endpoint
+        fetch('/update-from-github')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                alert('Error connecting to GitHub: ' + error.message);
+            });
+    }
+    
+    function resetSettings() {
+        // Reset all settings to defaults
+        if (confirm('Are you sure you want to reset all settings to default?')) {
+            document.getElementById('darkModeToggle').checked = false;
+            document.getElementById('fontSizeSlider').value = 16;
+            document.getElementById('fontSizeValue').textContent = '16px';
+            document.getElementById('autoRefreshToggle').checked = true;
+            document.getElementById('densityComfortable').checked = true;
+            
+            // Remove cookie
+            document.cookie = "theme=; path=/; max-age=0";
+            
+            // Apply resets
+            document.documentElement.style.fontSize = '16px';
+            toggleDarkMode(true);
+        }
+    }
+    
+    // Density radio buttons
+    const densityRadios = document.querySelectorAll('input[name="densityRadio"]');
+    densityRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            // Add density class to body based on selection
+            document.body.classList.remove('density-compact', 'density-spacious', 'density-comfortable');
+            document.body.classList.add('density-' + this.value);
+        });
+    });
+</script>
+{% endblock %}

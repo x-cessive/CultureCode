@@ -102,6 +102,58 @@
     <div id="timeline-events"></div>
 </div>
 
+<div class="timeline-legend mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h5>Timeline Legend</h5>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="legend-item d-flex align-items-center mb-2">
+                        <div class="legend-color me-2" style="width: 20px; height: 20px; background-color: rgba(0, 123, 255, 0.2); border: 1px solid rgba(0, 123, 255, 0.5); border-radius: 4px;"></div>
+                        <span>Culture Existence Period</span>
+                    </div>
+                    <div class="legend-item d-flex align-items-center">
+                        <div class="legend-color me-2" style="width: 20px; height: 20px; background-color: #007bff; border: 1px solid #007bff; border-radius: 4px;"></div>
+                        <span>Culture Name</span>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <p class="mb-0"><strong>How to use:</strong> Hover over cultures to see details. Click on a culture name to explore it.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alternative simpler timeline using list format for better readability -->
+<div class="timeline-list mt-4">
+    <h3>Chronological List</h3>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Culture</th>
+                    <th>Time Period</th>
+                    <th>Location</th>
+                    <th>Start Year</th>
+                    <th>End Year</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for event in timeline_events %}
+                <tr>
+                    <td><a href="{{ url_for('culture_detail', culture_name=event.name) }}">{{ event.name.replace('_', ' ') }}</a></td>
+                    <td>{{ event.time_period }}</td>
+                    <td>{{ event.geography }}</td>
+                    <td>{{ event.start_date or 'Unknown' }}</td>
+                    <td>{{ event.end_date or 'Unknown' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 <div class="row mt-4">
     <div class="col-12">
         <h3>All Cultures</h3>
@@ -128,52 +180,98 @@
 {% block extra_js %}
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Simplified timeline visualization
-        // In a real implementation, you'd want to properly calculate positions based on dates
-        
+        // Improved timeline visualization to avoid overlap
         const timelineEvents = {{ timeline_events | tojson }};
         
-        // Define a simple timeline from -3000 to 1500 (3000 BCE to 1500 CE)
+        // Define timeline from -3000 to 1600 (3000 BCE to 1600 CE)
         const minYear = -3000; // 3000 BCE
         const maxYear = 1600;  // 1600 CE
-        const timelineWidth = document.getElementById('timeline-axis').offsetWidth;
+        const timelineWidth = document.getElementById('timeline-axis') ? document.getElementById('timeline-axis').offsetWidth : 1000;
         
-        // Sort events by start date for better visualization
-        timelineEvents.sort((a, b) => (a.start_date || 0) - (b.start_date || 0));
+        // Sort events by start date
+        const sortedEvents = timelineEvents.filter(event => event.start_date !== null && event.end_date !== null)
+                                          .sort((a, b) => (a.start_date || 0) - (b.start_date || 0));
         
-        const timelineContainer = document.getElementById('timeline-events');
-        
-        // Create culture periods
-        timelineEvents.forEach(event => {
-            if (event.start_date !== null && event.end_date !== null) {
-                const startPercent = ((event.start_date - minYear) / (maxYear - minYear)) * 100;
-                const widthPercent = ((event.end_date - event.start_date) / (maxYear - minYear)) * 100;
+        // Stack events to avoid overlap
+        const stackLayers = [];
+        sortedEvents.forEach(event => {
+            // Try to place the event in an existing layer where it doesn't overlap
+            let placed = false;
+            for (let i = 0; i < stackLayers.length; i++) {
+                const layer = stackLayers[i];
+                const lastEvent = layer[layer.length - 1];
                 
-                // Ensure minimum width for visibility
-                const finalWidth = Math.max(widthPercent, 2);
-                
-                const periodDiv = document.createElement('div');
-                periodDiv.className = 'culture-period';
-                periodDiv.style.left = `${Math.max(0, startPercent)}%`;
-                periodDiv.style.width = `${finalWidth}%`;
-                periodDiv.title = `${event.name}: ${event.time_period}`;
-                
-                // Create a link inside the period div
-                const link = document.createElement('a');
-                link.href = `{{ url_for('culture_detail', culture_name='') }}${event.name}`;
-                link.textContent = event.name.replace('_', ' ');
-                link.style.textDecoration = 'none';
-                link.style.color = 'inherit';
-                link.style.fontWeight = 'bold';
-                
-                periodDiv.appendChild(link);
-                timelineContainer.appendChild(periodDiv);
+                // Check if this event doesn't overlap with the last event in this layer
+                if (!lastEvent || lastEvent.end_date <= event.start_date) {
+                    layer.push(event);
+                    event.layer = i; // Store which layer this event belongs to
+                    placed = true;
+                    break;
+                }
+            }
+            
+            // If no suitable layer was found, create a new one
+            if (!placed) {
+                stackLayers.push([event]);
+                event.layer = stackLayers.length - 1;
             }
         });
         
-        // Handle window resize to recalculate positions
+        const timelineContainer = document.getElementById('timeline-events');
+        if (timelineContainer) {
+            // Create culture periods with stacking to prevent overlap
+            sortedEvents.forEach(event => {
+                if (event.start_date !== null && event.end_date !== null) {
+                    const startPercent = ((event.start_date - minYear) / (maxYear - minYear)) * 100;
+                    const widthPercent = Math.max(((event.end_date - event.start_date) / (maxYear - minYear)) * 100, 1); // Minimum width to be visible
+                    
+                    // Calculate top position based on the layer
+                    const layerHeight = 40; // Height of each layer
+                    const topPos = 50 + (event.layer * layerHeight); // Start below the axis
+                    
+                    const periodDiv = document.createElement('div');
+                    periodDiv.className = 'culture-period';
+                    periodDiv.style.left = `${Math.max(0, startPercent)}%`;
+                    periodDiv.style.width = `${Math.min(widthPercent, 100 - startPercent)}%`; // Prevent overflow
+                    periodDiv.style.top = `${topPos}px`;
+                    periodDiv.style.position = 'absolute';
+                    periodDiv.style.height = `${layerHeight - 5}px`;
+                    periodDiv.title = `${event.name}: ${event.time_period}`;
+                    
+                    // Create a link inside the period div
+                    const link = document.createElement('a');
+                    link.href = `{{ url_for('culture_detail', culture_name='') }}${event.name}`;
+                    link.textContent = event.name.replace('_', ' ');
+                    link.style.textDecoration = 'none';
+                    link.style.color = 'white';
+                    link.style.fontSize = '12px';
+                    link.style.display = 'flex';
+                    link.style.alignItems = 'center';
+                    link.style.justifyContent = 'center';
+                    link.style.height = '100%';
+                    link.style.fontWeight = 'bold';
+                    
+                    periodDiv.appendChild(link);
+                    timelineContainer.appendChild(periodDiv);
+                }
+            });
+            
+            // Set height of timeline container based on number of layers
+            const containerHeight = 100 + (stackLayers.length * layerHeight);
+            timelineContainer.style.height = `${containerHeight}px`;
+            timelineContainer.style.position = 'relative';
+            
+            // Also update axis height to match
+            const axis = document.getElementById('timeline-axis');
+            if (axis) {
+                axis.style.height = `${containerHeight}px`;
+            }
+        }
+        
+        // Handle window resize to recalculate positions if needed
         window.addEventListener('resize', function() {
-            // In a full implementation, you would recalculate all positions here
+            // Refresh the page or re-run the visualization on resize
+            // For simplicity, we'll skip dynamic resizing in this implementation
         });
     });
     

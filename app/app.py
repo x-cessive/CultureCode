@@ -233,8 +233,8 @@ def api_culture(culture_name):
 @app.route('/compare')
 def compare():
     """Page to compare two cultures."""
-    cultures = get_culture_names()
-    return render_template('compare.html', cultures=cultures)
+    all_cultures = get_culture_names()
+    return render_template('compare.html', all_cultures=all_cultures)
 
 
 @app.route('/api/compare/<culture1>/<culture2>')
@@ -254,6 +254,29 @@ def api_compare(culture1, culture2):
     }
     
     return jsonify(comparison)
+
+
+@app.route('/settings')
+def settings():
+    """Settings page for user preferences."""
+    cultures = get_culture_names()
+    return render_template('settings.html', all_cultures=cultures)
+
+
+@app.route('/api/settings', methods=['POST'])
+def api_settings():
+    """API endpoint to save user settings."""
+    settings = request.json
+    # In a real implementation, you might save these to a database or user profile
+    return jsonify({"status": "success", "message": "Settings saved successfully"})
+
+
+@app.route('/api/theme', methods=['POST'])
+def api_theme():
+    """API endpoint to change theme."""
+    theme = request.json.get('theme', 'light')
+    # In a real implementation, you might save this to user preferences
+    return jsonify({"status": "success", "theme": theme})
 
 
 def find_similarities(culture1, culture2):
